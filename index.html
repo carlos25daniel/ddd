@@ -6,19 +6,22 @@
     <title>Malla Curricular - Diseño Industrial - UBA FADU</title>
     <style>
         :root {
-            --annual-no-final: #800080;
-            --quarter-no-final: #E0B0FF;
-            --annual-with-final: #FFFF99;
-            --quarter-with-final: #F9A602;
-            --elective: #556B2F;
-            --locked: #CCCCCC;
+            --annual-no-final: #B5EAD7; /* Azul pastel claro */
+            --quarter-no-final: #C7CEEA; /* Azul pastel medio */
+            --annual-with-final: #FFDAC1; /* Melocotón pastel */
+            --quarter-with-final: #E2F0CB; /* Verde menta pastel */
+            --elective: #556B2F; /* Verde olivo (se mantiene) */
+            --locked: #F0F0F0; /* Gris claro para materias bloqueadas */
+            --text-dark: #333333; /* Texto oscuro */
+            --text-light: #FFFFFF; /* Texto claro */
         }
         
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f5f5f5;
+            background-color: white;
+            color: var(--text-dark);
             line-height: 1.6;
         }
         
@@ -37,6 +40,7 @@
             margin-right: 20px;
             font-weight: bold;
             line-height: 1.4;
+            color: #2c3e50;
         }
         
         .title {
@@ -45,13 +49,13 @@
         }
         
         h1 {
-            color: #333;
+            color: #3498db;
             margin: 0 0 5px 0;
             font-size: 28px;
         }
         
         h2 {
-            color: #555;
+            color: #556B2F;
             margin: 0;
             font-size: 20px;
             font-weight: normal;
@@ -82,7 +86,7 @@
         }
         
         .year-title {
-            background-color: var(--annual-no-final);
+            background-color: #3498db;
             color: white;
             padding: 10px;
             border-radius: 5px;
@@ -109,6 +113,7 @@
             transition: all 0.3s;
             position: relative;
             font-size: 14px;
+            color: var(--text-dark);
         }
         
         .subject:hover {
@@ -118,48 +123,44 @@
         
         .annual-no-final {
             background-color: var(--annual-no-final);
-            color: white;
         }
         
         .quarter-no-final {
             background-color: var(--quarter-no-final);
-            color: black;
         }
         
         .annual-with-final {
             background-color: var(--annual-with-final);
-            color: black;
         }
         
         .quarter-with-final {
             background-color: var(--quarter-with-final);
-            color: black;
         }
         
         .elective {
             background-color: var(--elective);
-            color: white;
+            color: var(--text-light);
         }
         
         .locked {
-            background-color: var(--locked) !important;
-            color: #666666 !important;
+            background-color: var(--locked);
+            color: #aaa;
             cursor: not-allowed;
         }
         
         .locked:hover::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: 100%;
+            bottom: -30px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #333;
+            background: #3498db;
             color: white;
             padding: 8px 12px;
+            font-size: 12px;
             border-radius: 5px;
             white-space: nowrap;
-            font-size: 12px;
-            z-index: 10;
+            pointer-events: none;
             width: max-content;
             max-width: 250px;
         }
@@ -191,14 +192,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
-        .instructions {
-            background-color: #f0f0f0;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        
         .legend {
             display: flex;
             flex-wrap: wrap;
@@ -222,6 +215,57 @@
             border: 1px solid #ddd;
         }
         
+        /* --- Estilos para mensajes gatunos --- */
+        #mensaje-gatito {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: #3498db;
+            color: #fff;
+            padding: 16px 22px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.7);
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            user-select: none;
+        }
+        
+        #mensaje-gatito.mostrar {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        #mensaje-gatito .emoji {
+            font-size: 2.6rem;
+            user-select: none;
+            position: relative;
+        }
+        
+        /* K encima del gato */
+        #mensaje-gatito .emoji.k {
+            position: relative;
+        }
+        
+        #mensaje-gatito .emoji.k::before {
+            content: "K";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: #F9A602;
+            text-shadow: 0 0 4px #dca600;
+            user-select: none;
+        }
+        
         @media (max-width: 768px) {
             .grid-container {
                 flex-direction: column;
@@ -236,6 +280,13 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+            
+            #mensaje-gatito {
+                top: 20px;
+                right: 20px;
+                left: 20px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -248,10 +299,6 @@
             <h1>Diseño Industrial</h1>
             <h2>Malla Curricular Interactiva</h2>
         </div>
-    </div>
-
-    <div class="instructions">
-        <p><strong>Instrucciones:</strong> Haz clic en las materias para marcarlas como aprobadas. Las materias bloqueadas muestran los requisitos pendientes al pasar el cursor sobre ellas. Las materias se desbloquearán automáticamente cuando apruebes sus correlativas.</p>
     </div>
 
     <div class="legend">
@@ -496,9 +543,14 @@
         </div>
     </div>
 
+    <!-- Mensaje gatuno -->
+    <div id="mensaje-gatito" aria-live="polite" role="alert" style="display:none;">
+        <div class="emoji k">🐱</div>
+        <div id="mensaje-texto"></div>
+    </div>
+
     <div class="footer">
         <p><strong>Revisa bien las correlatividades antes de marcar las materias como aprobadas.</strong></p>
-        <p>Para comenzar, marca como aprobadas las materias del CBC para desbloquear el primer año.</p>
     </div>
 
     <script>
@@ -515,16 +567,13 @@
             if (isApproved) {
                 element.classList.remove('approved');
                 subjectsState[subjectId] = false;
-                element.style.textDecoration = 'none';
-                element.style.opacity = '1';
+                mostrarMensaje(false);
             } else {
                 element.classList.add('approved');
                 subjectsState[subjectId] = true;
-                element.style.textDecoration = 'line-through';
-                element.style.opacity = '0.7';
+                mostrarMensaje(true);
             }
-            
-            // Actualizar el estado de las materias dependientes
+            localStorage.setItem("progresoMalla", JSON.stringify(subjectsState));
             updateDependentSubjects();
         }
         
@@ -551,10 +600,56 @@
             });
         }
         
+        // Mensaje gatuno o triste según apruebes o desmarques
+        function mostrarMensaje(aprobado) {
+            const mensajeDiv = document.getElementById("mensaje-gatito");
+            const texto = document.getElementById("mensaje-texto");
+
+            if(aprobado) {
+                mensajeDiv.querySelector(".emoji").textContent = "🐱"; // gatito
+                mensajeDiv.querySelector(".emoji").classList.add("k");
+                const frasesBuenas = [
+                    "Lo hiciste bien mi amor 💜",
+                    "¡Felicitaciones, hermosa! 🥰",
+                    "Eres increíble, sigue así 💖",
+                    "¡Brillaste, mi reina! ✨",
+                    "¡Orgullo puro! 😻"
+                ];
+                const frase = frasesBuenas[Math.floor(Math.random()*frasesBuenas.length)];
+                texto.textContent = frase;
+            } else {
+                mensajeDiv.querySelector(".emoji").textContent = "😿"; // carita triste
+                mensajeDiv.querySelector(".emoji").classList.remove("k");
+                // Mensaje especial "No hay coito 😿"
+                const frase = "No hay coito 😿";
+                texto.textContent = frase;
+            }
+
+            mensajeDiv.style.display = "flex";
+            setTimeout(() => {
+                mensajeDiv.style.opacity = "1";
+                mensajeDiv.classList.add("mostrar");
+            }, 10);
+
+            setTimeout(() => {
+                mensajeDiv.classList.remove("mostrar");
+                setTimeout(() => {
+                    mensajeDiv.style.display = "none";
+                }, 400);
+            }, 4000);
+        }
+        
         // Inicializar el estado de todas las materias
         document.querySelectorAll('.subject').forEach(subject => {
             const subjectId = subject.getAttribute('data-id');
             subjectsState[subjectId] = false;
+            
+            // Cargar progreso guardado
+            const savedProgress = JSON.parse(localStorage.getItem("progresoMalla"));
+            if (savedProgress && savedProgress[subjectId]) {
+                subject.classList.add('approved');
+                subjectsState[subjectId] = true;
+            }
             
             // Agregar evento para tooltip en móviles (touch)
             subject.addEventListener('touchstart', function(e) {
@@ -564,6 +659,9 @@
                 }
             }, {passive: false});
         });
+        
+        // Actualizar materias dependientes al cargar
+        updateDependentSubjects();
     </script>
 </body>
 </html>
