@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malla Curricular - Diseño Industrial - UBA FADU</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .logo {
+            height: 100px;
+            margin-right: 20px;
+        }
+        .title {
+            text-align: center;
+            flex-grow: 1;
+        }
+        h1 {
+            color: #333;
+            margin: 0;
+        }
+        h2 {
+            color: #555;
+            margin: 5px 0;
+        }
+        .grid-container {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+        }
+        .year-column {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            min-width: 250px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .year-title {
+            background-color: #800080;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .subject {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .subject:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .annual-no-final {
+            background-color: #800080;
+            color: white;
+        }
+        .quarter-no-final {
+            background-color: #E0B0FF;
+            color: black;
+        }
+        .annual-with-final {
+            background-color: #FFFF99;
+            color: black;
+        }
+        .quarter-with-final {
+            background-color: #F9A602;
+            color: black;
+        }
+        .elective {
+            background-color: #556B2F;
+            color: white;
+        }
+        .locked {
+            background-color: #cccccc !important;
+            color: #666666 !important;
+            cursor: not-allowed;
+        }
+        .locked:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 14px;
+            z-index: 10;
+        }
+        .correlatives {
+            font-size: 12px;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        .instructions {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="data:image/png;base64,[LOGO_BASE64]" alt="UBA FADU Logo" class="logo">
+        <div class="title">
+            <h1>Diseño Industrial</h1>
+            <h2>Facultad de Arquitectura, Diseño y Urbanismo - UBA</h2>
+        </div>
+    </div>
+
+    <div class="instructions">
+        <p><strong>Instrucciones:</strong> Haz clic en las materias para marcarlas como aprobadas. Las materias bloqueadas muestran los requisitos pendientes al pasar el cursor.</p>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #800080;"></div>
+            <span>Materias anuales sin examen final</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #E0B0FF;"></div>
+            <span>Materias cuatrimestrales sin examen final</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #FFFF99;"></div>
+            <span>Materias anuales con examen final</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #F9A602;"></div>
+            <span>Materias cuatrimestrales con examen final</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #556B2F;"></div>
+            <span>Electivas y optativas</span>
+        </div>
+    </div>
+
+    <div class="grid-container" id="curriculum-grid">
+        <!-- Primer Año -->
+        <div class="year-column">
+            <div class="year-title">PRIMER AÑO</div>
+            <div class="subject annual-with-final" onclick="toggleSubject(this)" data-id="proyectual1">PROYECTUAL 1</div>
+            <div class="subject annual-with-final" onclick="toggleSubject(this)" data-id="proyectual2">PROYECTUAL 2</div>
+            <div class="subject quarter-with-final" onclick="toggleSubject(this)" data-id="celulo">CELULO</div>
+            <div class="subject quarter-with-final" onclick="toggleSubject(this)" data-id="sociedad-y-estado">SOCIEDAD Y ESTADO</div>
+            <div class="subject quarter-with-final" onclick="toggleSubject(this)" data-id="perisamiento">PERISAMIENTO</div>
+            <div class="subject quarter-with-final" onclick="toggleSubject(this)" data-id="matematica">MATEMÁTICA</div>
+            <div class="subject quarter-with-final" onclick="toggleSubject(this)" data-id="semologia">SEMIOLOGÍA</div>
+        </div>
+
+        <!-- Segundo Año -->
+        <div class="year-column">
+            <div class="year-title">SEGUNDO AÑO</div>
+            <div class="subject annual-with-final locked" onclick="toggleSubject(this)" data-id="morfologia1" data-requires="proyectual1,proyectual2" data-tooltip="Requiere: PROYECTUAL 1, PROYECTUAL 2">MORFOLOGÍA 1</div>
+            <div class="subject annual-with-final locked" onclick="toggleSubject(this)" data-id="analisis" data-requires="proyectual1,proyectual2" data-tooltip="Requiere: PROYECTUAL 1, PROYECTUAL 2">ANÁLISIS</div>
+            <div class="subject quarter-with-final locked" onclick="toggleSubject(this)" data-id="matematica2" data-requires="matematica" data-tooltip="Requiere: MATEMÁTICA">MATEMÁTICA</div>
+            <div class="subject quarter-with-final locked" onclick="toggleSubject(this)" data-id="fisica" data-requires="matematica" data-tooltip="Requiere: MATEMÁTICA">FÍSICA</div>
+        </div>
+
+        <!-- Tercer Año -->
+        <div class="year-column">
+            <div class="year-title">TERCER AÑO</div>
+            <div class="subject annual-with-final locked" onclick="toggleSubject(this)" data-id="morfologia2" data-requires="morfologia1" data-tooltip="Requiere: MORFOLOGÍA 1">MORFOLOGÍA 2</div>
+            <div class="subject annual-with-final locked" onclick="toggleSubject(this)" data-id="producto" data-requires="analisis" data-tooltip="Requiere: ANÁLISIS">PRODUCTO</div>
+            <div class="subject quarter-with-final locked" onclick="toggleSubject(this)" data-id="ergonomia" data-requires="fisica" data-tooltip="Requiere: FÍSICA">ERGONOMÍA</div>
+            <div class="subject elective locked" onclick="toggleSubject(this)" data-id="electiva1" data-requires="morfologia1" data-tooltip="Requiere: MORFOLOGÍA 1">ELECTIVA 1</div>
+        </div>
+
+        <!-- Cuarto Año -->
+        <div class="year-column">
+            <div class="year-title">CUARTO AÑO</div>
+            <div class="subject annual-with-final locked" onclick="toggleSubject(this)" data-id="proyecto-final" data-requires="morfologia2,producto" data-tooltip="Requiere: MORFOLOGÍA 2, PRODUCTO">PROYECTO FINAL</div>
+            <div class="subject quarter-with-final locked" onclick="toggleSubject(this)" data-id="tecnologia" data-requires="ergonomia" data-tooltip="Requiere: ERGONOMÍA">TECNOLOGÍA</div>
+            <div class="subject elective locked" onclick="toggleSubject(this)" data-id="electiva2" data-requires="electiva1" data-tooltip="Requiere: ELECTIVA 1">ELECTIVA 2</div>
+            <div class="subject elective locked" onclick="toggleSubject(this)" data-id="electiva3" data-requires="electiva1" data-tooltip="Requiere: ELECTIVA 1">ELECTIVA 3</div>
+        </div>
+
+        <!-- Quinto Año -->
+        <div class="year-column">
+            <div class="year-title">QUINTO AÑO</div>
+            <div class="subject annual-with-final locked" onclick="toggleSubject(this)" data-id="tesis" data-requires="proyecto-final" data-tooltip="Requiere: PROYECTO FINAL">TESIS</div>
+            <div class="subject quarter-with-final locked" onclick="toggleSubject(this)" data-id="profesionalizacion" data-requires="tecnologia" data-tooltip="Requiere: TECNOLOGÍA">PROFESIONALIZACIÓN</div>
+            <div class="subject elective locked" onclick="toggleSubject(this)" data-id="electiva4" data-requires="electiva2" data-tooltip="Requiere: ELECTIVA 2">ELECTIVA 4</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Revisa bien las correlatividades antes de marcar las materias como aprobadas.</p>
+    </div>
+
+    <script>
+        // Estado de las materias
+        const subjectsState = {};
+        
+        // Función para alternar el estado de una materia
+        function toggleSubject(element) {
+            if (element.classList.contains('locked')) return;
+            
+            const subjectId = element.getAttribute('data-id');
+            const isApproved = element.classList.contains('approved');
+            
+            if (isApproved) {
+                element.classList.remove('approved');
+                subjectsState[subjectId] = false;
+            } else {
+                element.classList.add('approved');
+                subjectsState[subjectId] = true;
+                
+                // Añadir efecto visual de aprobado
+                element.style.textDecoration = 'line-through';
+                element.style.opacity = '0.7';
+            }
+            
+            // Actualizar el estado de las materias dependientes
+            updateDependentSubjects();
+        }
+        
+        // Función para actualizar las materias dependientes
+        function updateDependentSubjects() {
+            const allSubjects = document.querySelectorAll('.subject[data-requires]');
+            
+            allSubjects.forEach(subject => {
+                const requiredSubjects = subject.getAttribute('data-requires').split(',');
+                let allRequiredApproved = true;
+                
+                for (const reqSubject of requiredSubjects) {
+                    if (!subjectsState[reqSubject]) {
+                        allRequiredApproved = false;
+                        break;
+                    }
+                }
+                
+                if (allRequiredApproved) {
+                    subject.classList.remove('locked');
+                } else {
+                    subject.classList.add('locked');
+                }
+            });
+        }
+        
+        // Inicializar el estado de todas las materias
+        document.querySelectorAll('.subject').forEach(subject => {
+            const subjectId = subject.getAttribute('data-id');
+            subjectsState[subjectId] = false;
+        });
+    </script>
+</body>
+</html>
